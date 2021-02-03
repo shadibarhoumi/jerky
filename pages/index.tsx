@@ -4,8 +4,10 @@ import Head from 'next/head'
 export const HomePage: React.FC = () => {
   return (
     <>
-      <Head>Shadi's Blog</Head>
-      <p>This is Shadi's blog</p>
+      <Head>
+        <title>Jerky</title>
+      </Head>
+      <p>This is a new way to remember things.</p>
     </>
   )
 }
