@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers, Middleware, compose } from 'redux'
+import { createStore, applyMiddleware, combineReducers, Middleware } from 'redux'
 import { reducer as accountsReducer, KEY as ACCOUNTS_KEY, middleware as accountsMiddleware } from '../accounts'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
