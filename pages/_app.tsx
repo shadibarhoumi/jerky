@@ -1,8 +1,16 @@
 import type { AppProps } from 'next/app'
+import { Provider } from 'react-redux'
 import '../styles/globals.css'
+import useStore from 'frontend/store'
+
+const store = useStore()
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  )
 }
 
 // Only uncomment this method if you have blocking data requirements for
