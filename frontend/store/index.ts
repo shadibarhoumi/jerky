@@ -1,5 +1,6 @@
-import { createStore, applyMiddleware, combineReducers, Middleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers, Middleware, compose } from 'redux'
 import { reducer as accountsReducer, KEY as ACCOUNTS_KEY, middleware as accountsMiddleware } from '../accounts'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 export default function useStore(injectedMiddlewares?: Array<Middleware>) {
   let middleware = injectedMiddlewares || [accountsMiddleware]
@@ -18,7 +19,7 @@ export default function useStore(injectedMiddlewares?: Array<Middleware>) {
       [ACCOUNTS_KEY]: accountsReducer,
     }),
     {},
-    applyMiddleware(...middleware),
+    composeWithDevTools(applyMiddleware(...middleware)),
   )
 
   store.dispatch({ type: '@@INIT' } as any)
