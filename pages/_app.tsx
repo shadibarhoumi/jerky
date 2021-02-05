@@ -5,7 +5,10 @@ import useStore from 'frontend/store'
 
 const store = useStore()
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({
+  Component,
+  pageProps,
+}: AppProps): React.ReactElement {
   return (
     <Provider store={store}>
       <Component {...pageProps} />
@@ -24,5 +27,3 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 //   return { ...appProps }
 // }
-
-export default MyApp

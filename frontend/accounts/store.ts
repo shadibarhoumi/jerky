@@ -1,4 +1,5 @@
 import { Account } from '@j-backend/accounts'
+
 import type { Reducer } from 'redux'
 
 export const KEY = 'accounts'
@@ -11,42 +12,53 @@ export const actionTypes = {
 }
 
 interface CreateRequestAction {
+  type: typeof actionTypes.CREATE_REQUEST
   name: string
 }
 
 interface CreateSuccessAction {
+  type: typeof actionTypes.CREATE_SUCCESS
   account: Account
 }
 
 interface CreateFailureAction {
+  type: typeof actionTypes.CREATE_FAILURE
   error: Error
 }
 
 interface SetActiveAction {
+  type: typeof actionTypes.SET_ACTIVE
   account: Account
 }
 
+type Payload<Action> = Omit<Action, 'type'>
+
 export const actions = {
-  createRequest: ({ name }: CreateRequestAction) => ({
+  createRequest: ({
+    name,
+  }: Payload<CreateRequestAction>): CreateRequestAction => ({
     type: actionTypes.CREATE_REQUEST,
     name,
   }),
-  createSuccess: ({ account }: CreateSuccessAction) => ({
+  createSuccess: ({
+    account,
+  }: Payload<CreateSuccessAction>): CreateSuccessAction => ({
     type: actionTypes.CREATE_SUCCESS,
     account,
   }),
-  createFailure: ({ error }: CreateFailureAction) => ({
+  createFailure: ({
+    error,
+  }: Payload<CreateFailureAction>): CreateFailureAction => ({
     type: actionTypes.CREATE_FAILURE,
     error,
   }),
-  setActive: ({ account }: SetActiveAction) => ({
+  setActive: ({ account }: Payload<SetActiveAction>): SetActiveAction => ({
     type: actionTypes.SET_ACTIVE,
     account,
   }),
 }
 
 export type actions = ReturnType<typeof actions[keyof typeof actions]>
-
 interface StateSlice {
   activeAccountId: Account['id']
   byId: Record<Account['id'], Account>
@@ -66,7 +78,10 @@ const initialState: StateSlice = {
   },
 }
 
-export const reducer: Reducer<StateSlice, actions> = (state = initialState, action) => {
+export const reducer: Reducer<StateSlice, actions> = (
+  state = initialState,
+  action,
+) => {
   switch (action.type) {
     case actionTypes.CREATE_SUCCESS:
     case actionTypes.SET_ACTIVE:
@@ -101,13 +116,15 @@ export const reducer: Reducer<StateSlice, actions> = (state = initialState, acti
 type State = Record<typeof KEY, StateSlice>
 
 export const selectors = {
-  getAccounts: () => (state: State) => state[KEY].byId,
-  getAccountById: (id: Account['id']) => (state: State) => state[KEY].byId[id],
-  getActiveAccountId: () => (state: State) => state[KEY].activeAccountId,
-  getActiveAccount: () => (state: State) => {
+  getAccounts: () => (state: State): Record<string, Account> => state[KEY].byId,
+  getAccountById: (id: Account['id']) => (state: State): Account =>
+    state[KEY].byId[id],
+  getActiveAccountId: () => (state: State): Account['id'] =>
+    state[KEY].activeAccountId,
+  getActiveAccount: () => (state: State): Account => {
     const activeAccountId = state[KEY].activeAccountId
     const accounts = state[KEY].byId
     return accounts[activeAccountId]
   },
-  getForm: () => (state: State) => state[KEY].form,
+  getForm: () => (state: State): StateSlice['form'] => state[KEY].form,
 }

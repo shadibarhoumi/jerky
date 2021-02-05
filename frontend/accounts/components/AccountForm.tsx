@@ -1,6 +1,9 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectors as accountSelectors, actions as accountActions } from '../store'
+import {
+  selectors as accountSelectors,
+  actions as accountActions,
+} from '../store'
 
 export const AccountForm: React.FC = () => {
   const activeAccount = useSelector(accountSelectors.getActiveAccount())
@@ -33,7 +36,9 @@ export const AccountForm: React.FC = () => {
       />
       <button onClick={handleClick}>Add Account</button>
       {form.error && <p style={{ color: 'red' }}>{form.error.message}</p>}
-      {form.success && <p style={{ color: 'green' }}>Successfully created account.</p>}
+      {form.success && (
+        <p style={{ color: 'green' }}>Successfully created account.</p>
+      )}
     </div>
   )
 }
