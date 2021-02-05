@@ -32,6 +32,5 @@ export default function useStore(injectedMiddlewares?: Array<Middleware>) {
     composeWithDevTools(applyMiddleware(...middleware)),
   )
 
-  store.dispatch({ type: '@@INIT' } as any)
   return store
 }
