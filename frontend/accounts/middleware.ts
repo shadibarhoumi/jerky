@@ -3,7 +3,7 @@ import { actions as accountActions, actionTypes as accountActionTypes } from './
 
 const generateId = () => Math.random().toString(36).slice(2)
 
-export const middleware: Middleware = ({ dispatch, getState }) => {
+export const middleware: Middleware = ({ dispatch }) => {
   return (next) => async (action: accountActions) => {
     next(action)
 
